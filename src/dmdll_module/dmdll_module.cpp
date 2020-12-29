@@ -38,7 +38,17 @@ void DMAPI Cdmdll_module::Release(void)
 
 void DMAPI Cdmdll_module::Test(void)
 {
-    DMLoadLibrary("dmdll_module.dll");
+    if (!DMLoadLibrary("dmdll.dll"))
+    {
+        return;
+    }
+
+    PFN_dmdllGetModule f = (PFN_dmdllGetModule)DMGetProcAddress("dmdllGetModule");
+    if (nullptr == f)
+    {
+        return;
+    }
+    f();
 }
 
 bool DMAPI Cdmdll_module::DMLoadLibrary(const char* path)
