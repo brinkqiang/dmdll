@@ -32,9 +32,9 @@ public:
 	
     virtual void DMAPI Test(void) = 0;
 
-    virtual bool DMAPI LoadLibrary(const char* path) = 0;
-    virtual void DMAPI FreeLibrary() = 0;
-    virtual void* DMAPI GetProcAddress(const char* name) = 0;
+    virtual bool DMAPI DMLoadLibrary(const char* path) = 0;
+    virtual void DMAPI DMFreeLibrary() = 0;
+    virtual void* DMAPI DMGetProcAddress(const char* name) = 0;
 };
 
 Idmdll* DMAPI dmdllGetModule();

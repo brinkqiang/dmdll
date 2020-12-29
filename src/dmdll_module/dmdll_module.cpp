@@ -38,22 +38,20 @@ void DMAPI Cdmdll_module::Release(void)
 
 void DMAPI Cdmdll_module::Test(void)
 {
-    std::cout << "PROJECT_NAME = dmdll" << std::endl;
-    std::cout << "PROJECT_NAME_UP = DMDLL" << std::endl;
-    std::cout << "PROJECT_NAME_LO = dmdll" << std::endl;
+    DMLoadLibrary("dmdll_module.dll");
 }
 
-bool DMAPI Cdmdll_module::LoadLibrary(const char* path)
+bool DMAPI Cdmdll_module::DMLoadLibrary(const char* path)
 {
     return m_oLoader.DMLoadLibrary(path);
 }
 
-void DMAPI Cdmdll_module::FreeLibrary()
+void DMAPI Cdmdll_module::DMFreeLibrary()
 {
     m_oLoader.DMFreeLibrary();
 }
 
-void* DMAPI Cdmdll_module::GetProcAddress(const char* name)
+void* DMAPI Cdmdll_module::DMGetProcAddress(const char* name)
 {
     return m_oLoader.DMGetProcAddress(name);
 }

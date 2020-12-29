@@ -17,5 +17,5 @@ MESSAGE(STATUS "VERSION: ${DMDLL_VERSION}")
 OPTION(USE_DMDLL "use dmdll" OFF)
 
 ModuleImportAll("thirdparty")
-LibImport("dmdll_module" "src/dmdll_module")
-ExeImport("test" "dmdll_module")
+DllImportDepends("dmdll" "src/dmdll_module" "")
+ExeImport("test" "dmdll")

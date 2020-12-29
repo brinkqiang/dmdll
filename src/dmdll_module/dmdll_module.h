@@ -23,7 +23,7 @@
 #include "dmdllloader.h"
 
 class Cdmdll_module :
-    public Idmdll
+    public Idmdll 
 {
 public:
     Cdmdll_module();
@@ -34,11 +34,11 @@ public:
 	
     virtual void DMAPI Test(void);	
 
-    virtual bool DMAPI LoadLibrary(const char* path);
+    virtual bool DMAPI DMLoadLibrary(const char* path);
     
-    virtual void DMAPI FreeLibrary();
+    virtual void DMAPI DMFreeLibrary();
 
-    virtual void* DMAPI GetProcAddress(const char* name);
+    virtual void* DMAPI DMGetProcAddress(const char* name);
 
 private:
     DMDllLoader m_oLoader;
