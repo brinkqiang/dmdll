@@ -20,6 +20,7 @@
 // SOFTWARE.
 
 #include "dmdll.h"
+#include "DllLoader.h"
 
 class Cdmdll_module :
     public Idmdll
@@ -32,4 +33,13 @@ public:
     virtual void DMAPI Release(void);
 	
     virtual void DMAPI Test(void);	
+
+    virtual bool DMAPI LoadLibrary(const char* path);
+    
+    virtual void DMAPI FreeLibrary();
+
+    virtual void* DMAPI GetProcAddress(const char* name);
+
+private:
+    DllLoader m_oLoader;
 };

@@ -43,6 +43,21 @@ void DMAPI Cdmdll_module::Test(void)
     std::cout << "PROJECT_NAME_LO = dmdll" << std::endl;
 }
 
+bool DMAPI Cdmdll_module::LoadLibrary(const char* path)
+{
+    return m_oLoader.Load(path);
+}
+
+void DMAPI Cdmdll_module::FreeLibrary()
+{
+    m_oLoader.Free();
+}
+
+void* DMAPI Cdmdll_module::GetProcAddress(const char* name)
+{
+    return m_oLoader.GetProcAddress(name);
+}
+
 Idmdll* DMAPI dmdllGetModule()
 {
     return new Cdmdll_module();

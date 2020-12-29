@@ -19,25 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef __DMDLL_H_INCLUDE__
-#define __DMDLL_H_INCLUDE__
+#ifndef __DMDLL_CONFIG_H_INCLUDE__
+#define __DMDLL_CONFIG_H_INCLUDE__
 
-#include "dmos.h"
+#define DMDLL_VERSION "1.0.1"
+/* #undef USE_DMDLL */
 
-class Idmdll
-{
-public:
-    virtual ~Idmdll(){}
-    virtual void DMAPI Release(void) = 0;
-	
-    virtual void DMAPI Test(void) = 0;
-
-    virtual bool DMAPI LoadLibrary(const char* path) = 0;
-    virtual void DMAPI FreeLibrary() = 0;
-    virtual void* DMAPI GetProcAddress(const char* name) = 0;
-};
-
-Idmdll* DMAPI dmdllGetModule();
-
-typedef Idmdll* (DMAPI* PFN_dmdllGetModule)();
-#endif // __DMDLL_H_INCLUDE__
+#endif // __DMDLL_CONFIG_H_INCLUDE__
