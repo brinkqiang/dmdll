@@ -1,3 +1,7 @@
+
+#ifndef __DMDLLFUNCTIONT_H__
+#define __DMDLLFUNCTIONT_H__
+
 #define _DLL_FUNC_T		_CLASS_NAME_(_DllFuncT)
 
 template<templateX_cRcTcT> struct _DLL_FUNC_T {
@@ -16,3 +20,5 @@ struct _Get_Base_Impl<templateX_Func>
 };
 
 #undef _DLL_FUNC_T
+
+#endif // __DMDLLFUNCTIONT_H__

@@ -1,9 +1,6 @@
-﻿/*
- * 作者：梁欢（lvan100@yeah.net）
- * 博客：http://blog.163.com/lvan100@yeah/
- * 授权：您可以使用这份文档进行任何用途，但原作者不承担任何责任。
- */
-
+﻿
+#ifndef __DMARGLIST_H__
+#define __DMARGLIST_H__
 
 #ifndef STDCALL
 #ifdef WIN32
@@ -469,3 +466,5 @@
 
 // ==> _TResult(_stdcall *_ptr)(_T0, ..., _T9)
 #define template_FuncPtrS10	typedef template_R(STDCALL *_stdcall_ptr)(template_TT10);
+
+#endif // __DMARGLIST_H__

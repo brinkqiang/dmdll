@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef __DMDLLFUNCTION_H__
+#define __DMDLLFUNCTION_H__
 
 #include "DMDllLoader.h"
 
@@ -10,7 +12,7 @@ enum DllFuncType {
 	DTF_STDCALL
 };
 
-#include "TmplArgs/TmplArgUtil.h"
+#include "DMArgUtil.h"
 
 /**
  * 函数封装类型
@@ -65,3 +67,5 @@ private:
 	const char* _name = nullptr;
 
 };
+
+#endif // __DMDLLFUNCTION_H__

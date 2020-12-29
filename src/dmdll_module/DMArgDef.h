@@ -1,9 +1,6 @@
-﻿/*
- * 作者：梁欢（lvan100@yeah.net）
- * 博客：http://blog.163.com/lvan100@yeah/
- * 授权：您可以使用这份文档进行任何用途，但原作者不承担任何责任。
- */
-
+﻿
+#ifndef __DMARGDEF_H__
+#define __DMARGDEF_H__
 
 // 定义逗号（,）
 
@@ -54,7 +51,7 @@
  * 将下面的文件替换成你自己的类型定义文档
  */
 
-#include "..\\DllFuncT.h"
+#include "DMDllFunctionT.h"
 
 
 #undef COMMA
@@ -70,3 +67,5 @@
 #undef templateX_Func
 #undef templateX_FuncPtrC
 #undef templateX_FuncPtrS
+
+#endif // __DMARGDEF_H__
