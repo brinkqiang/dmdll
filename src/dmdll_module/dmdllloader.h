@@ -32,12 +32,12 @@ public:
 	 * @param path
 	 *        模块的绝对路径
 	 */
-	bool LoadLibrary(const char* path);
+	bool DMLoadLibrary(const char* path);
 
 	/**
 	 * 释放模块
 	 */
-	void FreeLibrary();
+	void DMFreeLibrary();
 
 	/**
 	 * 获取函数入口
@@ -46,7 +46,7 @@ public:
 	 *        导出函数的名称
 	 * @return 返回加载的函数指针。
 	 */
-	void* GetProcAddress(const char* name);
+	void* DMGetProcAddress(const char* name);
 
 private:
 	/**

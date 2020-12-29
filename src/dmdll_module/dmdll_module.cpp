@@ -45,17 +45,17 @@ void DMAPI Cdmdll_module::Test(void)
 
 bool DMAPI Cdmdll_module::LoadLibrary(const char* path)
 {
-    return m_oLoader.LoadLibrary(path);
+    return m_oLoader.DMLoadLibrary(path);
 }
 
 void DMAPI Cdmdll_module::FreeLibrary()
 {
-    m_oLoader.FreeLibrary();
+    m_oLoader.DMFreeLibrary();
 }
 
 void* DMAPI Cdmdll_module::GetProcAddress(const char* name)
 {
-    return m_oLoader.GetProcAddress(name);
+    return m_oLoader.DMGetProcAddress(name);
 }
 
 Idmdll* DMAPI dmdllGetModule()

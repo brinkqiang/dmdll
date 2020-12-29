@@ -48,10 +48,10 @@ DMDllLoader::DMDllLoader() :
 }
 
 DMDllLoader::~DMDllLoader(void) {
-	FreeLibrary();
+	DMFreeLibrary();
 }
 
-bool DMDllLoader::LoadLibrary(const char* path) {
+bool DMDllLoader::DMLoadLibrary(const char* path) {
 	if (m_hModule == nullptr) {
 		m_hModule = ::DMLoadDll(path);
 	} else {
@@ -60,14 +60,14 @@ bool DMDllLoader::LoadLibrary(const char* path) {
 	return (m_hModule != nullptr);
 }
 
-void DMDllLoader::FreeLibrary() {
+void DMDllLoader::DMFreeLibrary() {
 	if (m_hModule != nullptr) {
 		::DMFree(m_hModule);
 		m_hModule = nullptr;
 	}
 }
 
-void* DMDllLoader::GetProcAddress(const char* name) {
+void* DMDllLoader::DMGetProcAddress(const char* name) {
 	if (m_hModule == nullptr) {
 		return nullptr;
 	}

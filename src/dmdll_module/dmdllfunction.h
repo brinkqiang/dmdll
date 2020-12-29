@@ -28,14 +28,14 @@ public:
 
 	DllFunc(const char* path, const char* name, DllFuncType type = DllFuncType::DTF_CDECL)
 		: _name(name), _type(type) {
-		LoadLibrary(path);
+		DMLoadLibrary(path);
 	}
 
 	template<class... Arg>
 	typename DllFuncBase::_R operator() (Arg... arg) {
 
 		if (callback == nullptr) {
-			callback = GetProcAddress(_name);
+			callback = DMGetProcAddress(_name);
 		}
 
 		if (callback != nullptr) {
