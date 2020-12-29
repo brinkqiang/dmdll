@@ -20,7 +20,7 @@
 // SOFTWARE.
 
 #include "dmdll.h"
-#include "DllLoader.h"
+#include "DMDllLoader.h"
 
 class Cdmdll_module :
     public Idmdll
@@ -41,5 +41,5 @@ public:
     virtual void* DMAPI GetProcAddress(const char* name);
 
 private:
-    DllLoader m_oLoader;
+    DMDllLoader m_oLoader;
 };

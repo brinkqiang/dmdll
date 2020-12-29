@@ -45,12 +45,12 @@ void DMAPI Cdmdll_module::Test(void)
 
 bool DMAPI Cdmdll_module::LoadLibrary(const char* path)
 {
-    return m_oLoader.Load(path);
+    return m_oLoader.LoadLibrary(path);
 }
 
 void DMAPI Cdmdll_module::FreeLibrary()
 {
-    m_oLoader.Free();
+    m_oLoader.FreeLibrary();
 }
 
 void* DMAPI Cdmdll_module::GetProcAddress(const char* name)

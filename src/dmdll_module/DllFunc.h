@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DllLoader.h"
+#include "DMDllLoader.h"
 
 /**
  * 函数调用类型
@@ -15,7 +15,7 @@ enum DllFuncType {
 /**
  * 函数封装类型
  */
-template<class _Fty> class DllFunc : public _Get_Base_Impl<_Fty>::_Type, public DllLoader {
+template<class _Fty> class DllFunc : public _Get_Base_Impl<_Fty>::_Type, public DMDllLoader {
 
 	typedef typename _Get_Base_Impl<_Fty>::_Type DllFuncBase;
 
@@ -26,7 +26,7 @@ public:
 
 	DllFunc(const char* path, const char* name, DllFuncType type = DllFuncType::DTF_CDECL)
 		: _name(name), _type(type) {
-		Load(path);
+		LoadLibrary(path);
 	}
 
 	template<class... Arg>

@@ -8,7 +8,7 @@
 #define ASSERT_STRING(_Expression, ...) \
 	(void)((!!(_Expression)) || (printf(__VA_ARGS__), printf("\n"), 0) || (assert(_Expression), 0))
 
-#include "DllLoader.h"
+#include "DMDllLoader.h"
 
 #ifndef WIN32
 #include <dlfcn.h>
@@ -16,7 +16,7 @@
 
 namespace /* 匿名命名空间保护本文件内部函数 */ {
 
-	HMODULE Load(const char* path) {
+	HMODULE DMLoadDll(const char* path) {
 #ifdef WIN32
 		return ::LoadLibraryA(path);
 #else
@@ -24,7 +24,7 @@ namespace /* 匿名命名空间保护本文件内部函数 */ {
 #endif
 	}
 
-	void Free(HMODULE hModule) {
+	void DMFree(HMODULE hModule) {
 #ifdef WIN32
 		::FreeLibrary(hModule);
 #else
@@ -32,7 +32,7 @@ namespace /* 匿名命名空间保护本文件内部函数 */ {
 #endif
 	}
 
-	void* GetProc(HMODULE hModule, const char* procName) {
+	void* DMGetProc(HMODULE hModule, const char* procName) {
 		void* addr =
 #ifdef WIN32
 			::GetProcAddress(hModule, procName);
@@ -41,36 +41,35 @@ namespace /* 匿名命名空间保护本文件内部函数 */ {
 #endif
 		return addr;
 	}
-
 }
 
-DllLoader::DllLoader() :
+DMDllLoader::DMDllLoader() :
 	m_hModule(nullptr) {
 }
 
-DllLoader::~DllLoader(void) {
-	Free();
+DMDllLoader::~DMDllLoader(void) {
+	FreeLibrary();
 }
 
-bool DllLoader::Load(const char* path) {
+bool DMDllLoader::LoadLibrary(const char* path) {
 	if (m_hModule == nullptr) {
-		m_hModule = ::Load(path);
+		m_hModule = ::DMLoadDll(path);
 	} else {
 		ASSERT_STRING(false, "already load, please use Free() before.");
 	}
 	return (m_hModule != nullptr);
 }
 
-void DllLoader::Free() {
+void DMDllLoader::FreeLibrary() {
 	if (m_hModule != nullptr) {
-		::Free(m_hModule);
+		::DMFree(m_hModule);
 		m_hModule = nullptr;
 	}
 }
 
-void* DllLoader::GetProcAddress(const char* name) {
+void* DMDllLoader::GetProcAddress(const char* name) {
 	if (m_hModule == nullptr) {
 		return nullptr;
 	}
-	return ::GetProc(m_hModule, name);
+	return ::DMGetProc(m_hModule, name);
 }

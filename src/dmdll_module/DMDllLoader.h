@@ -1,5 +1,7 @@
-﻿#ifndef Dll_Loader_H
-#define Dll_Loader_H
+﻿
+#ifndef __DMDLLLOADER_H__
+#define __DMDLLLOADER_H__
+
 
 #ifndef WIN32
 typedef void* HMODULE;
@@ -10,18 +12,18 @@ typedef void* HMODULE;
 /**
  * 动态链接/共享库包装类
  */
-class DllLoader {
+class DMDllLoader {
 
 public:
 	/**
 	 * 构造函数
 	 */
-	DllLoader();
+	DMDllLoader();
 
 	/**
 	 * 析构函数
 	 */
-	virtual ~DllLoader();
+	virtual ~DMDllLoader();
 
 	/**
 	 * 加载模块。重复加载前务必
@@ -30,12 +32,12 @@ public:
 	 * @param path
 	 *        模块的绝对路径
 	 */
-	bool Load(const char* path);
+	bool LoadLibrary(const char* path);
 
 	/**
 	 * 释放模块
 	 */
-	void Free();
+	void FreeLibrary();
 
 	/**
 	 * 获取函数入口
@@ -50,8 +52,8 @@ private:
 	/**
 	 * 绝对不需要拷贝使用!
 	 */
-	DllLoader(const DllLoader&) = delete;
-	DllLoader operator=(const DllLoader&) = delete;
+	DMDllLoader(const DMDllLoader&) = delete;
+	DMDllLoader operator=(const DMDllLoader&) = delete;
 
 protected:
 	/**
@@ -61,4 +63,4 @@ protected:
 
 };
 
-#endif /* Dll_Loader_H */
+#endif // __DMDLLLOADER_H__
