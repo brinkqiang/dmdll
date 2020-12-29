@@ -43,12 +43,12 @@ void DMAPI Cdmdll_module::Test(void)
         return;
     }
 
-    PFN_dmdllGetModule f = (PFN_dmdllGetModule)DMGetProcAddress("dmdllGetModule");
-    if (nullptr == f)
+    PFN_dmdllGetModule module = (PFN_dmdllGetModule)DMGetProcAddress("dmdllGetModule");
+    if (nullptr == module)
     {
         return;
     }
-    f();
+    auto p = module();
 }
 
 bool DMAPI Cdmdll_module::DMLoadLibrary(const char* path)
