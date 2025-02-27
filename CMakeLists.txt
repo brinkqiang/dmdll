@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.21)
 
 PROJECT(dmdll)
 
@@ -18,4 +18,8 @@ OPTION(USE_DMDLL "use dmdll" OFF)
 
 ModuleImportAll("thirdparty")
 DllImportDepends("dmdll" "src/dmdll_module" "")
-ExeImport("test" "dmdll")
+
+IF(PROJECT_IS_TOP_LEVEL)
+    ExeImport("test" "dmdll")
+ENDIF()
+
