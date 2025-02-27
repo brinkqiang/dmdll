@@ -17,7 +17,7 @@
 namespace /* 匿名命名空间保护本文件内部函数 */ {
 
 	HMODULE DMLoadDll(const char* path) {
-#ifdef WIN32
+#ifdef _WIN32
 		return ::LoadLibraryA(path);
 #else
 		return dlopen(path, RTLD_LAZY);
@@ -25,7 +25,7 @@ namespace /* 匿名命名空间保护本文件内部函数 */ {
 	}
 
 	void DMFree(HMODULE hModule) {
-#ifdef WIN32
+#ifdef _WIN32
 		::FreeLibrary(hModule);
 #else
 		dlclose(hModule);
@@ -34,7 +34,7 @@ namespace /* 匿名命名空间保护本文件内部函数 */ {
 
 	void* DMGetProc(HMODULE hModule, const char* procName) {
 		void* addr =
-#ifdef WIN32
+#ifdef _WIN32
 			::GetProcAddress(hModule, procName);
 #else
 			dlsym(hModule, procName);

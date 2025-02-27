@@ -3,7 +3,7 @@
 #define __DMARGLIST_H__
 
 #ifndef STDCALL
-#ifdef WIN32
+#ifdef _WIN32
 #define STDCALL _stdcall
 #else
 #define STDCALL __attribute__((__stdcall__))
@@ -12,7 +12,7 @@
 
 
 #ifndef CDECL
-#ifdef WIN32
+#ifdef _WIN32
 #define CDECL __cdecl
 #else
 #define CDECL __attribute__((__cdecl__))
