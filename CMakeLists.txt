@@ -7,14 +7,9 @@ INCLUDE(cmake/ModuleImport.cmake)
 INCLUDE(cmake/ModuleCompileOptions.cmake)
 ModuleSetCompileOptions()
 
-SET(DMDLL_VERSION_MAJOR "1")
-SET(DMDLL_VERSION_MINOR "0")
-SET(DMDLL_VERSION_PATCH "1")
-SET(DMDLL_VERSION "${DMDLL_VERSION_MAJOR}.${DMDLL_VERSION_MINOR}.${DMDLL_VERSION_PATCH}")
-
-MESSAGE(STATUS "VERSION: ${DMDLL_VERSION}")
-
-OPTION(USE_DMDLL "use dmdll" OFF)
+if(WIN32)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 ModuleImportAll("thirdparty")
 DllImportDepends("dmdll" "src/dmdll_module" "")
