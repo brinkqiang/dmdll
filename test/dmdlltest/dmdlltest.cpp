@@ -15,13 +15,13 @@ int main( int argc, char* argv[] ) {
 
         using libAFunctionType = decltype(libAFunction);
         using libAFunctionTypeP = libAFunctionType*; 
-        libAFunctionTypeP a = LibAmodule->DMGetProcAddress("libAFunction");
+        libAFunctionTypeP a = (libAFunctionTypeP)LibAmodule->DMGetProcAddress("libAFunction");
         a(20);
         using libBFunctionType = decltype(libBFunction);
         using libBFunctionTypeP = libBFunctionType*; 
-        libBFunctionTypeP b = LibBmodule->DMGetProcAddress("libBFunction");
+        libBFunctionTypeP b = (libBFunctionTypeP)LibBmodule->DMGetProcAddress("libBFunction");
         b(20);
-        
+
         LibAmodule->Release();
         LibBmodule->Release();
     }
