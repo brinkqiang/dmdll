@@ -22,7 +22,6 @@ int main( int argc, char* argv[] )
 
 #endif
 
-
         using libAFunctionType = decltype(libAFunction);
         using libAFunctionTypeP = libAFunctionType*; 
         libAFunctionTypeP a = (libAFunctionTypeP)LibAmodule->DMGetProcAddress("libAFunction");
