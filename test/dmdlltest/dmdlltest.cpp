@@ -20,7 +20,7 @@ int main( int argc, char* argv[] ) {
         using libBFunctionType = decltype(libBFunction);
         using libBFunctionTypeP = libBFunctionType*; 
         libBFunctionTypeP b = (libBFunctionTypeP)LibBmodule->DMGetProcAddress("libBFunction");
-        b(20);
+        b(40);
 
         LibAmodule->Release();
         LibBmodule->Release();
