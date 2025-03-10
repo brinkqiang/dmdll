@@ -3,15 +3,25 @@
 #include "libA.h"
 #include "libB.h"
 
-int main( int argc, char* argv[] ) {
-
+int main( int argc, char* argv[] ) 
+{
     Idmdll* LibAmodule = dmdllGetModule();
     Idmdll* LibBmodule = dmdllGetModule();    
     if (LibAmodule && LibBmodule)
     {
+#ifdef _WIN32
+        LibAmodule->DMLoadLibrary("libA.dll");
+#else
         LibAmodule->DMLoadLibrary("liblibA.so");
+#endif
 
+#ifdef _WIN32
+        LibBmodule->DMLoadLibrary("libB.dll");
+#else
         LibBmodule->DMLoadLibrary("liblibB.so");
+
+#endif
+
 
         using libAFunctionType = decltype(libAFunction);
         using libAFunctionTypeP = libAFunctionType*; 

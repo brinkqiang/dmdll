@@ -1,6 +1,6 @@
 #include "libB.h"
 #include "../libC/libC.h"
 
-void libBFunction(int value) {
+void DMAPI libBFunction(int value) {
     modifyGlobalVar(value);
 }

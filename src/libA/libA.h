@@ -1,6 +1,7 @@
 #ifndef LIBA_H
 #define LIBA_H
+#include "dmos.h"
 
-extern "C" void libAFunction(int value);
+extern "C" void DMAPI libAFunction(int value);
 
 #endif // LIBA_H
