@@ -3,7 +3,7 @@
 #define __DMDLLLOADER_H__
 
 
-#ifndef WIN32
+#ifndef _WIN32
 typedef void* HMODULE;
 #else
 #include <Windows.h>
