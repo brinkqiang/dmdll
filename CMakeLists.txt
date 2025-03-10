@@ -12,7 +12,13 @@ if(WIN32)
 endif()
 
 ModuleImportAll("thirdparty")
-DllImportDepends("dmdll" "src/dmdll_module" "")
+
+LibImport("libC" "src/libC")
+
+DllImportDepends("libA" "src/libA" "libC")
+DllImportDepends("libB" "src/libB" "libC")
+
+DllImportDepends("dmdll" "src/dmdll_module" "libA;libB")
 
 IF(PROJECT_IS_TOP_LEVEL)
     ExeImport("test" "dmdll")
