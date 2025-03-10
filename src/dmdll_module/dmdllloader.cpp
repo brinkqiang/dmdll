@@ -20,7 +20,7 @@ namespace /* 匿名命名空间保护本文件内部函数 */ {
 #ifdef _WIN32
 		return ::LoadLibraryA(path);
 #else
-		return dlopen(path, RTLD_LAZY);
+		return dlopen(path, RTLD_LAZY | RTLD_LOCAL);
 #endif
 	}
 
