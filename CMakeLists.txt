@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
 
-PROJECT(dmdll)
+project(dmdll)
 
-LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-INCLUDE(cmake/ModuleImport.cmake)
-INCLUDE(cmake/ModuleCompileOptions.cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(cmake/ModuleImport.cmake)
+include(cmake/ModuleCompileOptions.cmake)
 ModuleSetCompileOptions()
 
 if(WIN32)
@@ -20,7 +20,7 @@ DllImportDepends("libB" "src/libB" "libC")
 
 DllImportDepends("dmdll" "src/dmdll_module" "")
 
-IF(PROJECT_IS_TOP_LEVEL)
+if(PROJECT_IS_TOP_LEVEL)
     ExeImport("test" "dmdll")
-ENDIF()
+endif()
 
