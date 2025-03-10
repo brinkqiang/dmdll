@@ -3,6 +3,6 @@
 
 extern int g_globalVar;
 
-extern "C" void void modifyGlobalVar(int value);
+extern "C" void modifyGlobalVar(int value);
 
 #endif // LIBC_H
