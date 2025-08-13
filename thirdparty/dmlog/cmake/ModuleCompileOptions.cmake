@@ -45,8 +45,18 @@ macro(ModuleSetCompileOptions)
   if(POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
   endif()
-  
+
+
   set(CMAKE_C_STANDARD 99)
+
+  set(CMAKE_BUILD_RPATH_USE_ORIGIN ON)
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+  
+  if(APPLE)
+    set(CMAKE_INSTALL_RPATH "@loader_path;@loader_path/../lib")  # macOS
+  elseif(UNIX)
+    set(CMAKE_INSTALL_RPATH "$ORIGIN:$ORIGIN/../lib")  # Linux
+  endif()
   
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
     set(CMAKE_BUILD_TYPE "debug")
@@ -222,27 +232,21 @@ endmacro(ModuleSetCompileOptions)
 
 macro(ModuleSetWinCompilerFlags)
   if (WIN32)
-    set(CompilerFlags
-            CMAKE_CXX_FLAGS
-            CMAKE_CXX_FLAGS_DEBUG
-            CMAKE_CXX_FLAGS_RELEASE
-            CMAKE_CXX_FLAGS_RELWITHDEBINFO
-            CMAKE_CXX_FLAGS_MINSIZEREL
-            CMAKE_C_FLAGS
-            CMAKE_C_FLAGS_DEBUG
-            CMAKE_C_FLAGS_RELEASE
-            CMAKE_C_FLAGS_RELWITHDEBINFO
-            CMAKE_C_FLAGS_MINSIZEREL
-            )
-    foreach(CompilerFlag ${CompilerFlags})
-      string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
-    endforeach()
+    if(POLICY CMP0091)
+        cmake_policy(SET CMP0091 NEW)
+    endif()
+  
+    if (MSVC)
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
   endif (WIN32)
 endmacro()
 
-macro(AddInstall ModuleList)
+
+macro(AddInstall ModuleList HeadersDir)
     message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
     message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
+    message(STATUS "HeadersDir: ${HeadersDir}")
     message(STATUS "Install Path: ${CMAKE_INSTALL_PREFIX}/bin")
 
     message(STATUS "AddInstall ${ModuleList} ...")
@@ -259,9 +263,21 @@ macro(AddInstall ModuleList)
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
     endif(WIN32)
 
-    configure_file(
+    if (EXISTS "${HeadersDir}" AND NOT "${HeadersDir}" STREQUAL "")
+        message(STATUS "Installing headers from: ${HeadersDir}")
+        install(DIRECTORY "${HeadersDir}/"
+                DESTINATION include
+                FILES_MATCHING 
+                PATTERN "*.h"
+                PATTERN "*.hpp")
+    endif()
+
+    if(NOT TARGET uninstall)
+        message(STATUS "Adding uninstall target for the first time.")
+        configure_file(
             "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
             "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
             IMMEDIATE @ONLY)
-    add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+        add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+    endif()
 endmacro()
