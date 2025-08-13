@@ -26,6 +26,14 @@
 #include "dmmoduleptr.h"
 #include <utility> // For std::forward
 
+#if defined(_WIN32)
+#define DM_CDECL __cdecl
+#define DM_STDCALL __stdcall
+#else // 针对 Linux, macOS 等其他平台
+#define DM_CDECL
+#define DM_STDCALL
+#endif
+
 class Idmdll;
 typedef DmModulePtr<Idmdll> dmdllPtr;
 
@@ -71,10 +79,10 @@ template<typename R, typename... Args>
 class DmDllFunction<R(Args...)>
 {
 public:
-    using CdeclPtr = R(__cdecl*)(Args...);
-    using StdcallPtr = R(__stdcall*)(Args...);
+    using CdeclPtr = R(DM_CDECL*)(Args...);
+    using StdcallPtr = R(DM_STDCALL*)(Args...);
 
-    DmDllFunction(Idmdll& manager, const char* functionName, DmCallConvention convention = DmCallConvention::Cdecl)
+    DmDllFunction(Idmdll& manager, const char* functionName, DmCallConvention convention = DmCallConvention::Stdcall)
         : m_manager(manager),
           m_functionName(functionName),
           m_callConvention(convention) {}
