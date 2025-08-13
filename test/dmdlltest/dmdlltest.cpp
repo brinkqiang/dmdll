@@ -1,5 +1,5 @@
 ﻿#include "dmdll.h"
-#include "dmdllfunction.h" // 1. 引入新的头文件
+
 #include <iostream>
 
 // libA.h 和 libB.h 不再需要，因为函数签名直接在模板中指定
