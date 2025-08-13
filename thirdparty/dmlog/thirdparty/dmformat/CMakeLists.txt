@@ -7,8 +7,8 @@ INCLUDE(cmake/ModuleImport.cmake)
 INCLUDE(cmake/ModuleCompileOptions.cmake)
 ModuleSetCompileOptions()
 
-ADD_DEFINITIONS(-DUSE_DMFORMAT)
+InterfaceImport("dmformat" "include" "")
 
-IF(PROJECT_IS_TOP_LEVEL)
+if (PROJECT_IS_TOP_LEVEL) # need cmake 3.21+
     ExeImport("test" "")
-ENDIF()
+endif(PROJECT_IS_TOP_LEVEL)
