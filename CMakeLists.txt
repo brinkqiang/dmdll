@@ -13,7 +13,7 @@ endif()
 
 ModuleImportAll("thirdparty")
 
-LibImport("libC" "src/libC")
+DllImport("libC" "src/libC")
 
 DllImportDepends("libA" "src/libA" "libC")
 DllImportDepends("libB" "src/libB" "libC")
