@@ -30,7 +30,7 @@ bool DmdllImpl::DMLoadLibrary(const char* libraryPath)
     m_moduleHandle = ::LoadLibraryA(libraryPath);
 #else
     //m_moduleHandle = ::dlopen(libraryPath, RTLD_LAZY);
-    m_moduleHandle = ::dlopen(lib_path, RTLD_LAZY | RTLD_LOCAL);
+    m_moduleHandle = ::dlopen(libraryPath, RTLD_LAZY | RTLD_LOCAL);
 
 #endif
 
