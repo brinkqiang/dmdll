@@ -1,4 +1,4 @@
-﻿
+
 // Copyright (c) 2018 brinkqiang (brink.qiang@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,29 +19,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef __DMDLL_H_INCLUDE__
-#define __DMDLL_H_INCLUDE__
+// cmake env
+// add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
-#include "dmos.h"
-#include "dmmoduleptr.h"
+#ifndef __DMFIX_WIN_UTF8_H_INCLUDE__
+#define __DMFIX_WIN_UTF8_H_INCLUDE__
 
-class Idmdll;
-typedef DmModulePtr<Idmdll> dmdllPtr;
+#include <cstdint>
+#include <iostream>
+#ifdef _WIN32
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
+#else
+#include <clocale>
+#endif
 
-class Idmdll
-{
+class ConsoleEncoding {
 public:
-    virtual ~Idmdll(){}
-    virtual void DMAPI Release(void) = 0;
-	
-    virtual void DMAPI Test(void) = 0;
+    // 禁止实例化
+    ConsoleEncoding() = delete;
+    ~ConsoleEncoding() = delete;
+    ConsoleEncoding(const ConsoleEncoding&) = delete;
+    ConsoleEncoding& operator=(const ConsoleEncoding&) = delete;
 
-    virtual bool DMAPI DMLoadLibrary(const char* path) = 0;
-    virtual void DMAPI DMFreeLibrary() = 0;
-    virtual void* DMAPI DMGetProcAddress(const char* name) = 0;
+private:
+    // 静态成员变量，用于初始化代码页
+    static inline uint32_t codePage = 65001; // 默认 UTF-8
+
+    // 静态对象的构造函数，用于设置控制台代码页
+    struct Initializer {
+        Initializer() {
+#ifdef _WIN32
+        SetConsoleOutputCP(codePage);
+        SetConsoleCP(codePage);
+#else
+        // 设置 Linux/macOS 区域设置
+        std::setlocale(LC_ALL, "en_US.utf8");
+#endif
+        }
+    };
+
+    // 静态成员变量：自动执行的初始化器
+    static inline Initializer initializer;
 };
 
-extern "C" DMEXPORT_DLL Idmdll* DMAPI dmdllGetModule();
-typedef Idmdll* (DMAPI* PFN_dmdllGetModule)();
-
-#endif // __DMDLL_H_INCLUDE__
+#endif // __DMFIX_WIN_UTF8_H_INCLUDE__

@@ -18,28 +18,44 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef __DMMODULEPTR_H_INCLUDE__
+#define __DMMODULEPTR_H_INCLUDE__
 
-#include "dmdll.h"
-#include "dmdllloader.h"
+#include <memory>
+#include <mutex>
 
-class Cdmdll_module :
-    public Idmdll 
-{
-public:
-    Cdmdll_module();
-    
-    virtual ~Cdmdll_module();
-
-    virtual void DMAPI Release(void);
-	
-    virtual void DMAPI Test(void);	
-
-    virtual bool DMAPI DMLoadLibrary(const char* path);
-    
-    virtual void DMAPI DMFreeLibrary();
-
-    virtual void* DMAPI DMGetProcAddress(const char* name);
-
-private:
-    DMDllLoader m_oLoader;
+template <typename T>
+struct DmReleaseDeleter {
+    void operator()(T* ptr) const {
+        if (ptr) {
+            ptr->Release();
+        }
+    }
 };
+
+template <typename T>
+using DmModulePtr = std::unique_ptr<T, DmReleaseDeleter<T>>;
+
+template <typename T>
+using DmUniquePtr = std::unique_ptr<T, DmReleaseDeleter<T>>;
+
+template <typename T>
+using DmSharedPtr = std::shared_ptr<T>;
+
+template <typename T>
+inline DmSharedPtr<T> CreateSharedPtr(T* raw_ptr) {
+    return DmSharedPtr<T>(raw_ptr, DmReleaseDeleter<T>());
+}
+
+template <typename T, typename... Args>
+inline std::shared_ptr<T> GetSingletonSharedPtr(Args&&... args)
+{
+    static std::once_flag once_flag;
+    static std::shared_ptr<T> instance;
+    std::call_once(once_flag, [&]() {
+        instance = std::make_shared<T>(std::forward<Args>(args)...);
+        });
+
+    return instance;
+}
+#endif // __DMMODULEPTR_H_INCLUDE__

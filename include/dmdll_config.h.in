@@ -1,4 +1,4 @@
-﻿
+
 // Copyright (c) 2018 brinkqiang (brink.qiang@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,29 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef __DMDLL_H_INCLUDE__
-#define __DMDLL_H_INCLUDE__
+#ifndef __DMDLL_CONFIG_H_INCLUDE__
+#define __DMDLL_CONFIG_H_INCLUDE__
 
-#include "dmos.h"
-#include "dmmoduleptr.h"
+#define DMDLL_VERSION "${DMDLL_VERSION}"
+#cmakedefine USE_DMDLL
 
-class Idmdll;
-typedef DmModulePtr<Idmdll> dmdllPtr;
-
-class Idmdll
-{
-public:
-    virtual ~Idmdll(){}
-    virtual void DMAPI Release(void) = 0;
-	
-    virtual void DMAPI Test(void) = 0;
-
-    virtual bool DMAPI DMLoadLibrary(const char* path) = 0;
-    virtual void DMAPI DMFreeLibrary() = 0;
-    virtual void* DMAPI DMGetProcAddress(const char* name) = 0;
-};
-
-extern "C" DMEXPORT_DLL Idmdll* DMAPI dmdllGetModule();
-typedef Idmdll* (DMAPI* PFN_dmdllGetModule)();
-
-#endif // __DMDLL_H_INCLUDE__
+#endif // __DMDLL_CONFIG_H_INCLUDE__

@@ -19,54 +19,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "dmdll_module.h"
+#ifndef __LIBDMDLL_IMPL_H_INCLUDE__
+#define __LIBDMDLL_IMPL_H_INCLUDE__
 
-Cdmdll_module::Cdmdll_module()
+#include "dmdll.h"
+
+// 为跨平台兼容，在这里定义模块句柄类型
+#ifndef _WIN32
+    typedef void* HMODULE;
+#else
+    #include <Windows.h>
+#endif
+
+class DmdllImpl : public Idmdll
 {
+public:
+    DmdllImpl();
+    virtual ~DmdllImpl();
 
-}
+    virtual void DMAPI Release(void) override;
+    virtual void DMAPI Test(void) override;
+    virtual bool DMAPI DMLoadLibrary(const char* path) override;
+    virtual void DMAPI DMFreeLibrary() override;
+    virtual void* DMAPI DMGetProcAddress(const char* name) override;
 
-Cdmdll_module::~Cdmdll_module()
-{
+private:
+    // 不再使用 DMDllLoader，直接在这里管理模块句柄
+    HMODULE m_hModule;
+};
 
-}
-
-void DMAPI Cdmdll_module::Release(void)
-{
-    delete this;
-}
-
-void DMAPI Cdmdll_module::Test(void)
-{
-    if (!DMLoadLibrary("dmdll.dll"))
-    {
-        return;
-    }
-
-    PFN_dmdllGetModule module = (PFN_dmdllGetModule)DMGetProcAddress("dmdllGetModule");
-    if (nullptr == module)
-    {
-        return;
-    }
-    auto p = module();
-}
-
-bool DMAPI Cdmdll_module::DMLoadLibrary(const char* path)
-{
-    return m_oLoader.DMLoadLibrary(path);
-}
-
-void DMAPI Cdmdll_module::DMFreeLibrary()
-{
-    m_oLoader.DMFreeLibrary();
-}
-
-void* DMAPI Cdmdll_module::DMGetProcAddress(const char* name)
-{
-    return m_oLoader.DMGetProcAddress(name);
-}
-
-Idmdll* DMAPI dmdllGetModule()
-{
-    return new Cdmdll_module();
-}
+#endif // __LIBDMDLL_IMPL_H_INCLUDE__

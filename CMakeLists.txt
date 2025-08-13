@@ -18,9 +18,9 @@ LibImport("libC" "src/libC")
 DllImportDepends("libA" "src/libA" "libC")
 DllImportDepends("libB" "src/libB" "libC")
 
-DllImportDepends("dmdll" "src/dmdll_module" "")
+DllImportDepends("libdmdll" "src/libdmdll" "")
 
 if(PROJECT_IS_TOP_LEVEL)
-    ExeImport("test" "dmdll")
+    ExeImport("test" "libdmdll")
 endif()
 
