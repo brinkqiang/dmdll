@@ -25,7 +25,7 @@
 #include "dmos.h"
 #include "dmmoduleptr.h"
 #include <utility> // For std::forward
-
+#include <type_traits>
 #if defined(_WIN32)
 #define DM_CDECL __cdecl
 #define DM_STDCALL __stdcall
@@ -94,13 +94,32 @@ public:
         }
 
         if (!m_functionPtr) {
-            return R{};
+            // 如果 R 是 void，我们什么都不返回。
+            if constexpr (std::is_void_v<R>) {
+                return;
+            }
+            // 如果 R 不是 void，我们返回一个默认构造的值。
+            else {
+                return R{};
+            }
         }
 
-        if (m_callConvention == DmCallConvention::Cdecl) {
-            return (reinterpret_cast<CdeclPtr>(m_functionPtr))(std::forward<Args>(args)...);
-        } else {
-            return (reinterpret_cast<StdcallPtr>(m_functionPtr))(std::forward<Args>(args)...);
+        if constexpr (std::is_void_v<R>) {
+            if (m_callConvention == DmCallConvention::Cdecl) {
+                (reinterpret_cast<CdeclPtr>(m_functionPtr))(std::forward<Args>(args)...);
+            }
+            else {
+                (reinterpret_cast<StdcallPtr>(m_functionPtr))(std::forward<Args>(args)...);
+            }
+            return;
+        }
+        else {
+            if (m_callConvention == DmCallConvention::Cdecl) {
+                return (reinterpret_cast<CdeclPtr>(m_functionPtr))(std::forward<Args>(args)...);
+            }
+            else {
+                return (reinterpret_cast<StdcallPtr>(m_functionPtr))(std::forward<Args>(args)...);
+            }
         }
     }
 
