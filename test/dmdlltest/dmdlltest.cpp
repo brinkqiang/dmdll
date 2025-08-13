@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
         // 3. 使用 DmDllFunction 创建类型安全的函数包装器
         //    假设 libAFunction 的签名为 void(int)
-        DmDllFunction<void(int)> libAFunc(*libAModule, "libAFunction");
+        DmDllFunction<void(int)> libAFunc(*libAModule, "libAFunction", DmCallConvention::Stdcall);
 
         // 4. 像普通函数一样直接调用，无需任何转换
         std::cout << "Calling libAFunction(20)..." << std::endl;
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
         // 对 libBFunction 执行同样的操作
         // 假设 libBFunction 的签名为 void(int)
-        DmDllFunction<void(int)> libBFunc(*libBModule, "libBFunction");
+        DmDllFunction<void(int)> libBFunc(*libBModule, "libBFunction", DmCallConvention::Stdcall);
         std::cout << "Calling libBFunction(40)..." << std::endl;
         libBFunc(40);
     }
