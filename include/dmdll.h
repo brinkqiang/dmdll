@@ -44,6 +44,12 @@ public:
     virtual void* DMAPI DMGetProcAddress(const char* functionName) = 0;
 };
 
+
+// 恢复为原始工厂函数命名
+extern "C" DMEXPORT_DLL Idmdll* DMAPI dmdllGetModule();
+typedef Idmdll* (DMAPI* PFN_dmdllGetModule)();
+
+
 /**
  * @brief C++风格的函数调用约定
  */
@@ -96,10 +102,5 @@ private:
     DmCallConvention m_callConvention;
     void* m_functionPtr = nullptr;
 };
-
-
-// 恢复为原始工厂函数命名
-extern "C" DMEXPORT_DLL Idmdll* DMAPI dmdllGetModule();
-typedef Idmdll* (DMAPI* PFN_dmdllGetModule)();
 
 #endif // __DMDLL_H_INCLUDE__
