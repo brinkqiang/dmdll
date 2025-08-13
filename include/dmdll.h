@@ -28,19 +28,22 @@
 class Idmdll;
 typedef DmModulePtr<Idmdll> dmdllPtr;
 
+/**
+ * @brief 动态库加载与管理接口
+ */
 class Idmdll
 {
 public:
     virtual ~Idmdll(){}
     virtual void DMAPI Release(void) = 0;
-	
-    virtual void DMAPI Test(void) = 0;
 
-    virtual bool DMAPI DMLoadLibrary(const char* path) = 0;
+    // 恢复为原始接口命名
+    virtual bool DMAPI DMLoadLibrary(const char* libraryPath) = 0;
     virtual void DMAPI DMFreeLibrary() = 0;
-    virtual void* DMAPI DMGetProcAddress(const char* name) = 0;
+    virtual void* DMAPI DMGetProcAddress(const char* functionName) = 0;
 };
 
+// 恢复为原始工厂函数命名
 extern "C" DMEXPORT_DLL Idmdll* DMAPI dmdllGetModule();
 typedef Idmdll* (DMAPI* PFN_dmdllGetModule)();
 

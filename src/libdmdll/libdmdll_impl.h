@@ -24,12 +24,14 @@
 
 #include "dmdll.h"
 
-// 为跨平台兼容，在这里定义模块句柄类型
-#ifndef _WIN32
-    typedef void* HMODULE;
-#else
+// 为跨平台定义模块句柄类型
+#ifdef _WIN32
     #include <Windows.h>
+    using DM_HMODULE = HMODULE;
+#else
+    using DM_HMODULE = void*;
 #endif
+
 
 class DmdllImpl : public Idmdll
 {
@@ -37,15 +39,14 @@ public:
     DmdllImpl();
     virtual ~DmdllImpl();
 
+    // Idmdll 接口实现
     virtual void DMAPI Release(void) override;
-    virtual void DMAPI Test(void) override;
-    virtual bool DMAPI DMLoadLibrary(const char* path) override;
+    virtual bool DMAPI DMLoadLibrary(const char* libraryPath) override;
     virtual void DMAPI DMFreeLibrary() override;
-    virtual void* DMAPI DMGetProcAddress(const char* name) override;
+    virtual void* DMAPI DMGetProcAddress(const char* functionName) override;
 
 private:
-    // 不再使用 DMDllLoader，直接在这里管理模块句柄
-    HMODULE m_hModule;
+    DM_HMODULE m_moduleHandle;
 };
 
 #endif // __LIBDMDLL_IMPL_H_INCLUDE__
